@@ -1,7 +1,7 @@
-# packer-ubuntu-19.10
+# packer-ubuntu-18.04
 
 ## About
-A Packer template to create Ubuntu 19.10 "Eoan Ermine" Server boxes for Vagrant / VirtualBox.
+A Packer template to create Ubuntu 18.04 "Bionic Beaver" Server boxes for Vagrant / VirtualBox.
 
 ## Usage
 ```bash
