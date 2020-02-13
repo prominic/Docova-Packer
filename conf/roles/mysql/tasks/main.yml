@@ -1,0 +1,74 @@
+--- 
+- 
+  apt: 
+    name: 
+      - mysql-server
+      - python3-mysqldb
+      - libmysqlclient-dev
+      - python3-dev
+      - mysql-client
+      - phpmyadmin
+  become: true
+  name: "Install mysql"
+- 
+  action: "service name=mysql state=started"
+  name: "Start the MySQL service"
+- 
+  become: true
+  become_user: root
+  mysql_user: 
+    host: "{{ item }}"
+    name: root
+    password: "{{ mysql_root_password }}"
+    priv: "*.*:ALL,GRANT"
+  name: "Set root user password"
+  with_items: 
+    - "{{ id }}"
+    - "127.0.0.1"
+    - ":1"
+    - localhost
+- 
+  become: true
+  become_user: root
+  name: "Copy .my.cnf file with root password credentials"
+  template: "src=roles/mysql/templates/.my.cnf dest=/root/.my.cnf owner=root mode=0600"
+- 
+  become: true
+  mysql_user: 
+    name: "{{ database_user }}"
+    password: "{{ database_password }}"
+    priv: "*.*:ALL"
+  name: "Create mysql user"
+- 
+  become: true
+  mysql_db: 
+    name: "{{ database_name }}"
+    state: absent
+  name: "Create mysql database"
+- 
+  become: true
+  mysql_db: 
+    name: "{{ database_name }}"
+    state: present
+  name: "Create mysql database"
+- 
+  action: "mysql_user user=\"\" host=\"{{ id }}\" state=\"absent\""
+  become: true
+  name: "Delete anonymous MySQL server user for $server_hostname"
+- 
+  action: "mysql_user user=\"\" state=\"absent\""
+  become: true
+  name: "Delete anonymous MySQL server user for localhost"
+- 
+  action: "mysql_db db=test state=absent"
+  become: true
+  name: "Remove the MySQL test database"
+- 
+  become: true
+  mysql_user: "name=root host={{ id }} password={{ mysql_root_password }} priv=*.*:ALL,GRANT"
+  name: "Update mysql root password for all root accounts"
+  with_items: 
+    - "{{ id }}"
+    - "127.0.0.1"
+    - ":1"
+    - localhost

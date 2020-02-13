@@ -1,0 +1,71 @@
+--- 
+- 
+  apt_repository: "repo=\"ppa:ondrej/php\" update_cache=yes"
+  name: "Add repository for PHP 7.1"
+- 
+  apt: 
+    force: true
+    name: php*
+    purge: true
+    state: absent
+  name: "Purge PHP version packages (besides the currently chosen php_version)."
+  register: php_version_purge
+- 
+  apt: 
+    force: true
+    name: php-common
+    purge: true
+    state: absent
+  name: "Also purge php-common package if any versions were just purged."
+  when: "php_version_purge.changed | bool"
+- 
+  apt: 
+    name: 
+      - php7.1-zip
+      - php7.1-xsl
+      - php7.1-xmlrpc
+      - php7.1-xml
+      - php7.1-tidy
+      - php7.1-sybase
+      - php7.1-soap
+      - php7.1-readline
+      - php7.1-pspell
+      - php7.1-pgsql
+      - php7.1-opcache
+      - php7.1-odbc
+      - php7.1-mysql
+      - php7.1-sqlite3
+      - php7.1-ldap
+      - php7.1-mbstring
+      - php7.1-json
+      - php7.1-intl
+      - php7.1-imap
+      - php7.1-gmp
+      - php7.1-gd
+      - php7.1-fpm
+      - php7.1-dev
+      - php7.1-dba
+      - php7.1-curl
+      - php7.1-common
+      - php7.1-cli
+      - php7.1-cgi
+      - php7.1-bz2
+      - php7.1-bcmath
+      - php7.1-interbase
+      - php7.1-pdo-firebird
+      - php7.1-fileinfo
+      - php7.1-exif
+      - php7.1-apcu
+  name: "Update all packages to the latest version"
+- 
+  become: true
+  name: "Setup php-fpm"
+  notify: 
+    - "restart nginx"
+  replace: "dest=/etc/php/7.1/fpm/php.ini regexp=\"(;cgi.fix_pathinfo=1)\" replace=\"cgi.fix_pathinfo=0\""
+- 
+  become: true
+  name: "Add php settings"
+  notify: 
+    - "restart nginx"
+  template: "src=../../nginx/templates/nginx-docova-common.conf dest=/etc/nginx/nginx-docova-common.conf owner=www-data group=www-data mode=0644"

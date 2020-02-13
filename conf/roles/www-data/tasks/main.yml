@@ -1,0 +1,131 @@
+--- 
+- 
+  become: true
+  file: 
+    group: www-data
+    mode: 0755
+    owner: www-data
+    path: /var/html/www/
+    state: directory
+    recurse: yes
+  name: "Create webroot"
+- 
+  name: "Check if Docova directory exists in /var/html/www/docova"
+  register: check_path
+  stat: path=/var/html/www/docova
+- 
+  get_url: 
+    url: https://www.m4kr.net/docova.zip
+    dest: /tmp/docova.zip
+  name: "Copying Docova Bundle Zip"
+- 
+  become: true
+  name: "Extract Docova"
+  unarchive: 
+    dest: /tmp
+    group: www-data
+    owner: www-data
+    remote_src: yes
+    src: /tmp/docova.zip
+  when: "not check_path.stat.exists"
+- 
+  become: true
+  command: "mv /tmp/docova /var/html/www/docova"
+  name: "Move Docova install files"
+  notify: 
+    - "restart nginx"
+  when: "not check_path.stat.exists"
+- 
+  become: true
+  file: 
+    group: www-data
+    mode: 0777
+    owner: www-data
+    path: "{{ document_root }}/Docova/_storage"
+    state: directory
+    recurse: yes
+  name: "Create document_root"
+- 
+  name: "Check if Docova directory exists in {{ document_root }}"
+  register: check_path
+  stat: "path={{ document_root }}"
+- 
+  become: true
+  file: 
+    mode: 0777
+    recurse: yes
+    group: www-data
+    owner: www-data
+    path: 
+      item: ~
+    state: directory
+  name: "Set Docova Document Permissions"
+  with_items: 
+    - /var/html/www/docova/src/Docova/DocovaBundle/Agents
+    - /var/html/www/docova/src/Docova/DocovaBundle/Resources/public/css/custom
+    - /var/html/www/docova/src/Docova/DocovaBundle/Resources/images
+    - /var/html/www/docova/src/Docova/DocovaBundle/Resources/public/js/custom
+    - /var/html/www/docova/src/Docova/DocovaBundle/Resources/views/DesignElements
+    - /var/html/www/docova/var/
+    - /var/html/www/docova/web/ 
+    - "{{ document_root }}"
+- 
+  lineinfile: 
+    dest: /var/html/www/docova/app/config/parameters.yml
+    line: "{{ item.line }}"
+    regexp: "{{ item.regexp }}"
+  name: "Update Docova config file"
+  notify: 
+    - "restart nginx"
+    - "restart php7.1-fpm"
+  with_items: 
+    - 
+      line: "    database_driver: pdo_mysql"
+      regexp: "database_driver:"
+    - 
+      line: "    database_port: 3306"
+      regexp: "database_port:"
+    - 
+      line: "    database_name: {{database_name}}"
+      regexp: "database_name:"
+    - 
+      line: "    database_user: {{database_user}}"
+      regexp: "database_user:"
+    - 
+      line: "    database_password: {{database_password}}"
+      regexp: "database_password:"
+    - 
+      line: "    document_root: {{document_root}}"
+      regexp: "document_root:"
+- 
+  cron: 
+    job: "/var/html/www/docova/autoindex.sh"
+    minute: "*/5"
+    name: Autoindex
+  name: "Setting Autoindex Cron Job"
+- 
+  cron: 
+    job: "/var/html/www/docova/agentrunner.sh"
+    minute: "*/5"
+    name: AgentRunner
+  name: "Setting AgentRunner Cron Job"
+- 
+  cron: 
+    job: "/var/html/www/docova/dailylifecycle.sh"
+    hour: "0"
+    name: DailyLifeCycle
+  name: "Setting DailyLifeCycle Cron Job"
+- 
+  become: true
+  name: "Running setUpDOCOVA"
+  register: result
+  args: 
+    chdir: /var/html/www/docova
+  shell: |-
+      bash /var/html/www/docova/setUpDOCOVA.sh << EOF
+      y
+      EOF
+- 
+  name: "Output of setUpDOCOVA"
+  debug:
+    msg: "{{ result.stdout }}"
