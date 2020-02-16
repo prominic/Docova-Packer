@@ -94,8 +94,8 @@
       {
         "type": "vagrant-cloud",
         "box_tag": "Makr44/Docova-Ubuntu-18.04",
-        "access_token": "FlTD50jrTUpTCw.atlasv1.CQ0oPk5RIyg8E451n3Eo32i78xxDYhIEs15LzzDZH6UP8qxl6vKuXPR1GuoXYGzDpkA",
-        "version": "1"
+        "access_token": "{{user `cloud_token`}}",
+        "version": "{{user `version`}}
       }
    ]
 ],
@@ -144,7 +144,7 @@
    "variables":{ 
       "boot_command_prefix":"<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
       "cpus":"1",
-	  "cloud_token": "FlTD50jrTUpTCw.atlasv1.CQ0oPk5RIyg8E451n3Eo32i78xxDYhIEs15LzzDZH6UP8qxl6vKuXPR1GuoXYGzDpkA",
+      "cloud_token": "",
       "disable_ipv6":"true",
       "disk_size":"10960",
       "headless":"true",
@@ -159,9 +159,9 @@
       "memory":"1024",
       "no_proxy":"{{env `no_proxy`}}",
       "preseed":"preseed.cfg",
-      "ssh_fullname":"vagrant",
-      "ssh_password":"vagrant",
-      "ssh_username":"vagrant",
+      "ssh_fullname":"DocAdmin",
+      "ssh_password":"DocProm2020@!",
+      "ssh_username":"docadmin",
       "update":"true",
       "vagrantfile_template":"",
       "version":"0.1",
