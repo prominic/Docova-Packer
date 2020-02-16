@@ -95,7 +95,7 @@
         "type": "vagrant-cloud",
         "box_tag": "Makr44/Docova-Ubuntu-18.04",
         "access_token": "{{user `cloud_token`}}",
-        "version": "{{user `version`}}
+        "version": "{{user `version`}}"
       }
    ]
 ],
