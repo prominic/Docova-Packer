@@ -35,7 +35,7 @@
   gather_facts: true
   hosts: all
   vars_files:
-  - Hosts.yml
+  - parameters.yml
   pre_tasks: 
     - 
       apt: 
