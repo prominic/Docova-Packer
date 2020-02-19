@@ -1,7 +1,5 @@
 --- 
-id: acme.docova.net
-run_letsencrypt: false
-autostart: true 
+autostart: true
 branch: ~
 client_directory: client_directory
 client_id: client_id
@@ -9,9 +7,10 @@ client_secret: client_secret
 database_name: docova_db
 database_password: password12
 database_user: docova_db_user
-document_root: "/var/docova/attachments"
+document_root: /var/docova/attachments
 gateway: "10.0.0.2"
 google_api_key: google_api_key
+id: acme.docova.net
 identifier: acme.docova.net
 ip: "10.0.0.164"
 ldap_adkey: ~
@@ -24,5 +23,6 @@ mailer_password: mailer_password
 mailer_user: mailer_user@mailer_user.net
 mysql_root_password: mysql_root_passwordDW
 netmask: "255.255.255.0"
+run_letsencrypt: false
 sender_address: sender_address@sender_address.net
 weather_api_key: weather_api_key
