@@ -115,17 +115,3 @@
     hour: "0"
     name: DailyLifeCycle
   name: "Setting DailyLifeCycle Cron Job"
-- 
-  become: true
-  name: "Running setUpDOCOVA"
-  register: result
-  args: 
-    chdir: /var/html/www/docova
-  shell: |-
-      bash /var/html/www/docova/setUpDOCOVA.sh << EOF
-      y
-      EOF
-- 
-  name: "Output of setUpDOCOVA"
-  debug:
-    msg: "{{ result.stdout }}"
