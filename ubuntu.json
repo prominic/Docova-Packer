@@ -159,7 +159,7 @@
       "memory":"1024",
       "no_proxy":"{{env `no_proxy`}}",
       "preseed":"preseed.cfg",
-      "ssh_fullname":"DocAdmin",
+      "ssh_fullname":"docadmin",
       "ssh_password":"DocProm2020@!",
       "ssh_username":"docadmin",
       "update":"true",
