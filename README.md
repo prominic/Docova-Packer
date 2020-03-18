@@ -1,7 +1,7 @@
-# packer-ubuntu-18.04
+# Docova Packer
 
 ## About
-A Packer template to create Ubuntu 18.04 "Bionic Beaver" Server boxes for Vagrant / VirtualBox.
+A Packer template to create Ubuntu 18.04 "Bionic Beaver" Server boxes for Vagrant / VirtualBox to kickstart the creation of Docova Virtual Machine creation.
 
 ## Usage
 ```bash
