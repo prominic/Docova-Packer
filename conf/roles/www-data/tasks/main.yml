@@ -9,6 +9,23 @@
     state: directory
     recurse: yes
   name: "Create webroot"
+-
+  become: true
+  name: "Update nginx confs for Docova + PHP"
+  template: 
+    src: ../templates/DeployKey_rsa
+    dest: /var/html/www/
+    owner: www-data
+    group: www-data
+    mode: 0644
+
+- 
+  name: Clone the code repository to the docroot.
+  git:
+    repo: git@github.com:MarkProminic/Docova.git
+    dest: /var/html/www/docova
+    accept_hostkey: yes
+    key_file: /var/html/www/DeployKey_rsa
 - 
   name: "Check if Docova directory exists in /var/html/www/docova"
   register: check_path
@@ -18,6 +35,7 @@
     url: https://www.m4kr.net/docova.zip
     dest: /tmp/docova.zip
   name: "Copying Docova Bundle Zip"
+  when: "not check_path.stat.exists"
 - 
   become: true
   name: "Extract Docova"
