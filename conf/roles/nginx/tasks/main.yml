@@ -3,6 +3,7 @@
   apt: "update_cache=yes cache_valid_time=3600"
   become: true
   name: "Update apt cache"
+  retries: 5
 - 
   apt: 
     name: 
@@ -13,6 +14,7 @@
       - curl
       - dos2unix
   name: "Install nginx"
+  retries: 5
 - 
   become: true
   name: "Update nginx confs for Docova + PHP"

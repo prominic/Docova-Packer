@@ -133,3 +133,17 @@
     hour: "0"
     name: DailyLifeCycle
   name: "Setting DailyLifeCycle Cron Job"
+- 
+  args: 
+    chdir: /var/html/www/docova
+  become: true
+  name: "Install Composer"
+  register: resultc
+  shell: |-
+      composer install << EOF
+      
+      EOF
+- 
+  debug: 
+    msg: "{{ resultc.stdout }}"
+  name: "Output of Composer"
