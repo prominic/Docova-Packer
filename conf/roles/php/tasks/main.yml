@@ -1,14 +1,14 @@
 --- 
 - 
   apt_repository: "repo=\"ppa:ondrej/php\" update_cache=yes"
-  name: "Add repository for PHP 7.1"
+  name: "Adding PHP repository for PHP 7.1"
 - 
   apt: 
     force: true
     name: php*
     purge: true
     state: absent
-  name: "Purge PHP version packages (besides the currently chosen php_version)."
+  name: "Purging all other PHP version packages."
   register: php_version_purge
 - 
   apt: 
@@ -16,7 +16,7 @@
     name: php-common
     purge: true
     state: absent
-  name: "Also purge php-common package if any versions were just purged."
+  name: "Ensuring any Extrneous PHP packages are removed"
   when: "php_version_purge.changed | bool"
 - 
   apt: 
@@ -78,7 +78,7 @@
   replace: "dest=/etc/php/7.1/fpm/php.ini regexp=\"(post_max_size = 8M)\" replace=\"post_max_size = 0\""
 - 
   become: true
-  name: "Add php settings"
+  name: "Adding php settings"
   notify: 
     - "restart nginx"
   template: "src=../../nginx/templates/nginx-docova-common.conf dest=/etc/nginx/nginx-docova-common.conf owner=www-data group=www-data mode=0644"
