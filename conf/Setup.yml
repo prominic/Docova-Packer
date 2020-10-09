@@ -60,3 +60,5 @@
       role: letsencrypt
     - 
       role: mail
+    - 
+      role: phpmyadmin
