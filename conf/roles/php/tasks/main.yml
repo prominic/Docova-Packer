@@ -60,10 +60,22 @@
   name: "Update all packages to the latest version"
 - 
   become: true
-  name: "Setup php-fpm"
+  name: "Setting up php-fpm"
   notify: 
     - "restart nginx"
   replace: "dest=/etc/php/7.1/fpm/php.ini regexp=\"(;cgi.fix_pathinfo=1)\" replace=\"cgi.fix_pathinfo=0\""
+- 
+  become: true
+  name: "Setting PHP timezone"
+  replace: "dest=/etc/php/7.1/fpm/php.ini regexp=\"(;date.timezone =)\" replace=\"date.timezone=America/New_York\""
+- 
+  become: true
+  name: "Setting Allowed Upload size"
+  replace: "dest=/etc/php/7.1/fpm/php.ini regexp=\"(upload_max_filesize = 2M)\" replace=\"upload_max_filesize = 0\""
+- 
+  become: true
+  name: "Setting Post Max size"
+  replace: "dest=/etc/php/7.1/fpm/php.ini regexp=\"(post_max_size = 8M)\" replace=\"post_max_size = 0\""
 - 
   become: true
   name: "Add php settings"
