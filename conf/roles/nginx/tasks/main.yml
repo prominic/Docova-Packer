@@ -12,6 +12,9 @@
       - tar
       - unzip
       - curl
+      - nano
+      - preload
+      - cockpit
       - dos2unix
   name: "Install nginx"
   retries: 5
