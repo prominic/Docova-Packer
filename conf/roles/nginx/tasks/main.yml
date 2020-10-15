@@ -16,6 +16,7 @@
       - preload
       - cockpit
       - dos2unix
+      - net-tools
   name: "Install nginx"
   retries: 5
 - 
