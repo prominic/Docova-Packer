@@ -18,7 +18,7 @@
     src: /tmp/phpMyAdmin.zip
 - 
   become: true
-  command: "mv /tmp/phpMyAdmin-5.0.3-all-languages /usr/share/phpMyAdmin"
+  command: "mv /tmp/phpMyAdmin-5.0.3-all-languages /usr/share/phpmyadmin"
   name: "Move phpMyAdmin install files"
 - 
   changed_when: false
