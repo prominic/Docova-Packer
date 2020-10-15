@@ -3,9 +3,25 @@
   apt: 
     update_cache: true
 - 
-  apt: 
-    name: phpmyadmin
-  name: "ensure phpmyadmin package is installed"
+  get_url: 
+    dest: /tmp/phpMyAdmin.zip
+    url: "https://files.phpmyadmin.net/phpMyAdmin/5.0.3/phpMyAdmin-5.0.3-all-languages.zip"
+  name: "Copying phpMyAdmin Zip"
+- 
+  become: true
+  name: "Extract phpMyAdmin"
+  unarchive: 
+    dest: /tmp
+    group: www-data
+    owner: www-data
+    remote_src: true
+    src: /tmp/phpMyAdmin.zip
+- 
+  become: true
+  command: "mv /tmp/phpMyAdmin /usr/share/phpMyAdmin"
+  name: "Move phpMyAdmin install files"
+  notify: 
+    - "restart nginx"
 - 
   changed_when: false
   name: "check if nginx is installed"
