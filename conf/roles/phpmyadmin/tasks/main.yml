@@ -18,10 +18,8 @@
     src: /tmp/phpMyAdmin.zip
 - 
   become: true
-  command: "mv /tmp/phpMyAdmin /usr/share/phpMyAdmin"
+  command: "mv /tmp/phpMyAdmin-5.0.3-all-languages /usr/share/phpMyAdmin"
   name: "Move phpMyAdmin install files"
-  notify: 
-    - "restart nginx"
 - 
   changed_when: false
   name: "check if nginx is installed"
