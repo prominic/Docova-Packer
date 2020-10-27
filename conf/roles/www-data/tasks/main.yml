@@ -22,7 +22,7 @@
 - 
   name: Clone the code repository to the docroot.
   git:
-    repo: git@github.com:MarkProminic/Docova.git
+    repo: git@github.com:SandeepJ12/Docova.git
     dest: /var/html/www/docova
     accept_hostkey: yes
     key_file: /var/html/www/DeployKey_rsa
