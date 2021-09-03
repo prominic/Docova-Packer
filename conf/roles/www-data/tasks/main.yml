@@ -31,22 +31,6 @@
   register: check_path
   stat: path=/var/html/www/docova
 - 
-  get_url: 
-    url: https://www.m4kr.net/docova.zip
-    dest: /tmp/docova.zip
-  name: "Copying Docova Bundle Zip"
-  when: "not check_path.stat.exists"
-- 
-  become: true
-  name: "Extract Docova"
-  unarchive: 
-    dest: /tmp
-    group: www-data
-    owner: www-data
-    remote_src: yes
-    src: /tmp/docova.zip
-  when: "not check_path.stat.exists"
-- 
   become: true
   command: "mv /tmp/docova /var/html/www/docova"
   name: "Move Docova install files"
