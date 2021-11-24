@@ -101,19 +101,19 @@
       regexp: "document_root:"
 - 
   cron: 
-    job: "/var/html/www/docova/autoindex.sh"
+    job: "/var/html/www/docova/cmd/autoindex.sh"
     minute: "*/5"
     name: Autoindex
   name: "Setting Autoindex Cron Job"
 - 
   cron: 
-    job: "/var/html/www/docova/agentrunner.sh"
+    job: "/var/html/www/docova/cmd/agentrunner.sh"
     minute: "*/5"
     name: AgentRunner
   name: "Setting AgentRunner Cron Job"
 - 
   cron: 
-    job: "/var/html/www/docova/dailylifecycle.sh"
+    job: "/var/html/www/docova/cmd/dailylifecycle.sh"
     hour: "0"
     name: DailyLifeCycle
   name: "Setting DailyLifeCycle Cron Job"
